@@ -1,0 +1,16 @@
+services:
+  pythonapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: zorranschool/dockerexampythonapi
+    container_name: pythonapi
+    ports:
+      - "8080:8080"
+  phpconsumer:
+    image: joelongtoe/phpconsumer
+    container_name: phpconsumer
+    ports:
+      - "80:80"
+    links:
+      - pythonapi

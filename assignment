@@ -1,0 +1,56 @@
+Docker
+Create a single pdf document to put your answers in. If you don’t submit a pdf, you will lose points. If you don’t know how to do a pdf, create a word document, then when you are ready you can export or save as pdf.
+
+Part 1 (30 points)
+For this part of the exam, you will utilize two containers. The first container is running a very simple python API on port 8080. The second container will make a REST request to the first container and then display it on a simple webpage on port 80. (The second container utilizes php).
+
+Create a directory called apitest. Do the following work in it.
+
+Using a text editor, create a requirements.txt with the following content.
+
+   hug
+   gunicorn
+Download the file here.
+
+Create a Dockerfile that does the following:
+
+Based on python:3.9
+Exposes port 8080
+Sets the working directory to /usr/src/app
+copies requirements.txt into ./.
+Does an apt update and installs the package named fortune
+Installs the necessary pip packages pip install --no-cache-dir -r requirements.txt
+Copies fortune.py into ./
+Runs the following at container launch time ["gunicorn", "-b", "0.0.0.0:8080", "fortune:__hug_wsgi__"]
+Create a file to be utilized by docker compose. It should do the following:
+
+have two services, the first service will:
+build the Dockerfile you just created
+send requests from 8080 to the local machine to 8080 in the container
+the second service will be based on the image: joelongtoe/phpconsumer
+send requests from 80 to the local machine to 80 in the container
+link to the first service (the first service MUST be discoverable by the name pythonapi)
+Bring up the containers with docker compose up. It should show two containers running. If you have everything setup correctly, you should be able to do a curl http://localhost:80/mypage.php and it should return an html page with a different fortune on it everytime you load it. (Or you can visit it in the browser but you might have to tunnel if you want to use the localhost address instead of public ip).
+
+Publish your newly built container to dockerhub.
+
+Put the following in your pdf file:
+
+one line that has your dockerhub image (in the form of user/repo, i.e.: joelongtoe/sweb)
+your docker-compose.yml
+your Dockerfile
+proof that you can view the webpage (via curl or browser)
+Part 2 (10 points)
+Clone the following repo: https://github.com/bezkoder/docker-compose-nodejs-mongodb.git
+
+Bring it up using the appropriate docker compose command.
+
+Answer the following questions in your pdf document.
+
+What is the name of the network that was created? (1 point)
+How many containers were created? (1)
+What mounts were created? What type of mounts are they? (2 points)
+Where are the mounts mounted within the container? (The directory name) (1)
+What node version is the app service built on? (2)
+For the mongo container, what port is being listened to INSIDE the container? (1)
+What is the MONGO_INITDB_ROOT_PASSWORD environment variable set to within the mongo container? (2)
