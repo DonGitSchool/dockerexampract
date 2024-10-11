@@ -1,0 +1,85 @@
+Part 1 
+
+zorranschool/dockerexampythonapi 
+
+ 
+
+docker-compose.yml 
+
+services: 
+
+  pythonapi: 
+
+    build: 
+
+      context: . 
+
+      dockerfile: Dockerfile 
+
+    image: zorranschool/dockerexampythonapi 
+
+    container_name: pythonapi 
+
+    ports: 
+
+      - "8080:8080" 
+
+  phpconsumer: 
+
+    image: joelongtoe/phpconsumer 
+
+    container_name: phpconsumer 
+
+    ports: 
+
+      - "80:80" 
+
+    links: 
+
+      - pythonapi 
+
+ 
+
+dockerfile 
+
+FROM python:3.9 
+
+EXPOSE 8080 
+
+WORKDIR /usr/src/app 
+
+COPY requirements.txt ./ 
+
+RUN apt update && apt install -y fortune 
+
+RUN pip install --no-cache-dir -r requirements.txt 
+
+COPY fortune.py ./ 
+
+CMD ["gunicorn", "-b", "0.0.0.0:8080", "fortune:__hug_wsgi__"] 
+
+ 
+
+Proof: 
+(not in github), check actual submission
+ 
+
+Part 2: 
+
+docker-compose-nodejs-mongodb_default 
+
+2 containers 
+
+named volume: db 
+
+mounted on mongo at /data/db 
+
+node:14 
+
+ port 27017 
+
+123456 
+
+  
+
+ 
